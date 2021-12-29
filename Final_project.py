@@ -33,31 +33,33 @@ if choice=='Model':
     st.image('PIC\Choose model.png')
     st.header('Check model after Tuning')
     st.image('PIC\Model Tuning.png')
-    st.header('After Train model I choose to use Random Forest Regression model:')
+    st.header('After Train model I choose to use:')
+    st.write('Random Forest Regression model')
     st.image('PIC\Random-Forest-Regression.png')
 if choice=='Predict Suicide Rate':
     st.image('PIC\death-clock1-1625569443.jpg')    
-    country=st.text_input('Name of Country:', value="Where should I Go?")
+    
     col1,col2=st.columns(2)
     with col1:
-        gdp=st.number_input('GDP(Billions $)',min_value=1.)*1000000000
-    with col1:
-        no_pop=st.number_input('Population(Million)',min_value=0.01)*1000000
-    year = st.number_input('Year',max_value=2016,min_value=2015,step=1)
+        country=st.text_input('Name of Country:', value="Where should I Go?")
+        gdp=st.number_input('GDP(Billions $):',min_value=1.)
+    with col2:
+        year = st.number_input('Year:',max_value=2016,min_value=2015,step=1)
+        no_pop=st.number_input('Population(Million):',min_value=0.01)
     # load the model from disk
     filename='Model\RandomForestRegressor.sav'
     loaded_model = pickle.load(open(filename, 'rb'))    
     if st.button('Calculate'):
-        x={0:{'Country':country,'Year':year,'GDP ($)':gdp,'Population':no_pop}}
+        x={0:{'Country':country,'Year':year,'GDP ($)':gdp*1000000000,'Population':no_pop*1000000}}
         #Model Predict 
         x_df = pd.DataFrame.from_dict(x, orient='index')
         y_test_pred = loaded_model.predict(x_df)
         no_suicide=y_test_pred
         #Print Table and Predict
-        a={0:{'Country':country,'Year':year,'GDP($)':gdp,'Population':no_pop,'No.Suicides':int(no_suicide[0])}}
+        a={0:{'Country':country,'Year':year,'GDP(Billions $)':int(gdp),'Population(Million)':int(no_pop),'No.Suicides':int(no_suicide[0])}}
         dk = pd.DataFrame.from_dict(a, orient='index')
         st.table(dk) 
-        suicide_rate =  no_suicide[0]/no_pop*100000
+        suicide_rate =  no_suicide[0]/(no_pop*10)
         st.write('Suicide rate per in ',country,' per 100000 pop :', round(suicide_rate,2))
         st.image(r'PIC\tomp.jpg')
 if choice=='Credit':
