@@ -1,3 +1,4 @@
+#streamlit run Final_project.py
 import streamlit as st
 import datetime as dt
 import pandas as pd
@@ -9,7 +10,8 @@ from sklearn.ensemble import RandomForestRegressor
 menu = ['Home','Suicide Problem','Model','Predict Suicide Rate' ,'After credit']
 choice = st.sidebar.selectbox('Menu',menu)
 if choice=='Home':
-    st.header('About me')
+    st.title('About me')
+    st.write('Final Project  :Predict Suicide Rate')
     st.write('Name  :Nguyen Duc Anh')
     st.write('E-mail    :anh10010@gmail.com')       
     
@@ -21,7 +23,9 @@ if choice=='Suicide Problem':
     st.write('1/Impulsivity')
     st.write('2/Substance use')
     st.write('3/Psychosis or Psychopath')
-    #if choice=='Home':
+    st.header('Solution:')
+    st.write('We need a model what can  Predict the Suicide rate in the near future')
+    st.write('That will help ')
 if choice=='Model':
     st.image('PIC\RMSE.jpg')
     st.header('Choose model')
@@ -33,8 +37,11 @@ if choice=='Model':
 if choice=='Predict Suicide Rate':
     st.image('PIC\death-clock1-1625569443.jpg')    
     country=st.text_input('Name of Country:', value="Where should I Go?")
-    gdp=st.number_input('GDP(Billions $)',min_value=1.)*1000000000
-    no_pop=st.number_input('Population(Million)',min_value=0.01)*1000000
+    col1,col2=st.columns(2)
+    with col1:
+        gdp=st.number_input('GDP(Billions $)',min_value=1.)*1000000000
+    with col1:
+        no_pop=st.number_input('Population(Million)',min_value=0.01)*1000000
     year = st.number_input('Year',max_value=2016,min_value=2015,step=1)
     # load the model from disk
     filename='Model\RandomForestRegressor.sav'
@@ -52,4 +59,9 @@ if choice=='Predict Suicide Rate':
         suicide_rate =  no_suicide[0]/no_pop*100000
         st.write('Suicide rate per in ',country,' per 100000 pop :', round(suicide_rate,2))
         st.image(r'PIC\tomp.jpg')
-#if choice=='After credit':
+if choice=='Credit':
+    st.header('SOURCE')
+
+    st.image('PIC\site-logo.png')
+    st.write('https://www.kaggle.com/kralmachine/data-visualization-of-suicide-rates')
+    st.write('https://www.kaggle.com/twinkle0705/mental-health-and-suicide-rates?select=Age-standardized+suicide+rates.csv')
