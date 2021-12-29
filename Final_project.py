@@ -1,3 +1,4 @@
+#conda activate cs_ftmle
 #streamlit run Final_project.py
 import streamlit as st
 import datetime as dt
